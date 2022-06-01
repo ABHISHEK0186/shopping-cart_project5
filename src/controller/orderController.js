@@ -30,8 +30,8 @@ const createOrder = async (req, res) => {
             if (!validator.isValidObjectId(items[i].productId)) return res.status(400).send({ status: false, message: `Please provide Valid productId at position ${i + 1}` })
 
             let isProductAvailable = await productModel.findOne({ _id: items[i].productId })
-            if (!isProductAvailable) return res.status(400).send({ status: false, message: `Product doesn't Exist for ProductId ${items[i].productId} at position ${i + 1}` })
-            if (!isProductAvailable.installments > 0) return res.status(400).send({ status: false, message: `Product with ProductId ${items[i].productId} at position ${i + 1} is OUT OF STOCK` })
+            if (!isProductAvailable) return res.status(404).send({ status: false, message: `Product doesn't Exist for ProductId ${items[i].productId} at position ${i + 1}` })
+            if (!isProductAvailable.installments > 0) return res.status(404).send({ status: false, message: `Product with ProductId ${items[i].productId} at position ${i + 1} is OUT OF STOCK` })
 
             if (!items[i].quantity > 0) return res.status(400).send({ status: false, message: `Please provide min 1 quantity at position ${i + 1}` })
 
